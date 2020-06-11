@@ -1,0 +1,2 @@
+# criptocompare
+Convertidor de criptomendas
