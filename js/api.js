@@ -23,6 +23,19 @@ class API {
             monedas
         }
     }
+    async obtenerCambioMonedasAPI() {
+        const url = 'https://api.coingecko.com/api/v3/simple/supported_vs_currencies';
+
+        // fetch a la api
+        const urlObtenerMonedas = await fetch(url);
+
+        // respuesta en json
+        const monedas = await urlObtenerMonedas.json();
+        console.log(monedas)
+        return {
+            monedas
+        }
+    }
     construirSelect() {
         this.obtenerMonedasAPI()
             .then(monedas => {
@@ -38,6 +51,23 @@ class API {
                     opcion.appendChild(document.createTextNode(value.name));
                     select.appendChild(opcion);
                 }
+            })
+        this.obtenerCambioMonedasAPI()
+            .then(monedas => {
+                //console.log(monedas);
+                // crear un select de opciones
+                const select = document.querySelector('#moneda');
+
+                for (const [key] of Object.entries(monedas.monedas)) {
+                    //console.log(value.id, value.symbol, value.name)
+                    // añadir el Symbol y el Nombre como opciones
+                    const opcion = document.createElement('option');
+                    opcion.value = monedas.monedas[key];
+                    opcion.appendChild(document.createTextNode(monedas.monedas[key]));
+                    select.appendChild(opcion);
+                    //console.log(monedas.monedas[key])
+                }
+
             })
     }
     async obtenerValores(moneda, criptomoneda) {
